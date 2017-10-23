@@ -1,7 +1,7 @@
 
 cmake_minimum_required (VERSION 3.4.0) 
 
-include("cmake/Hunter/HunterGate.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/Hunter/HunterGate.cmake")
 
 function( setIfNotDefined variableName variableValue )
     if(NOT DEFINED ${variableName})
@@ -20,16 +20,21 @@ HunterGate(
     LOCAL
 )
 
-
 project(googletest-PackageTest)
 
+# download and build GTest
 hunter_add_package(GTest)
 
 
-# Add executable that uses the main() implementation from GMock:gmock_main
-add_executable( GTestConsumer1 useGMock.cpp )
-target_link_libraries( GTestConsumer1 PUBLIC GMock::gmock_main )
-
 # Add executable that provides its own main implementation
-add_executable( GTestConsumer2 useGTest.cpp main.cpp )
-target_link_libraries( GTestConsumer1 PUBLIC GTest::gtest )
+find_package(GTest 1.8.0 CONFIG REQUIRED )
+
+add_executable( GTestConsumer useGTest.cpp main.cpp )
+target_link_libraries( GTestConsumer PUBLIC GTest::gtest )
+
+# Add executable that uses the main() implementation from GMock:gmock_main
+find_package(GMock 1.8.0 CONFIG )
+if(TARGET GMock::main)
+    add_executable( GMockConsumer useGMock.cpp )
+    target_link_libraries( GMockConsumer PUBLIC GMock::main )
+endif()
