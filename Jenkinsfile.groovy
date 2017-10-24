@@ -47,7 +47,7 @@ def getBuildConfigurations()
         '--config Debug'
     )
 
-    return [vs2015StaticDebug/*,vs2015StaticRelease,makeStaticRelease*/]
+    return [vs2015StaticDebug,/*vs2015StaticRelease,*/makeStaticRelease]
 }
 
 def getParameterMap( repositoryUrl, checkoutDirectroy, buildSlaveTag, additionalGenerateArguments, additionalBuildArguments )
@@ -68,51 +68,29 @@ stage('Run Builds')
 {
     // prepare a map for build slave tag index incrementation
     //def slaveTagIndexes = getBuildSlaveTagIndexMap()
-    //def configurations = getBuildConfigurations()
+    def configurations = getBuildConfigurations()
     
-    /*
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
     
         def params = """
-${config.repositoryUrl}
-${config.checkoutDirectory}
-${config.buildSlaveTag}
-${config.additionalGenerateArguments}
-${config.additionalBuildArguments}
+RepositoryUrl: ${params['RepositoryUrl']}
+CheckoutDirectory: ${params['CheckoutDirectory']}
+BuildSlaveTag: ${params['BuildSlaveTag']}
+AdditionalGenerateArguments: ${params['AdditionalGenerateArguments']}
+AdditionalBuildArguments: ${params['AdditionalBuildArguments']}
 """
         echo params
     
-        node('master')
-        {
-            build job: 'CMakeProjectBuildJob' , parameters: [
-                    string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
-                    string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
-                    string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
-                    string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
-                    string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
-                ] 
-                //, quietPeriod: 0
-        }
+        build job: 'CMakeProjectBuildJob' , parameters: [
+                string(name: 'RepositoryUrl', value: params['RepositoryUrl'] ), 
+                string(name: 'CheckoutDirectory', value: params['CheckoutDirectory'] ), 
+                string(name: 'BuildSlaveTag', value: params['BuildSlaveTag'] ), 
+                string(name: 'AdditionalGenerateArguments', value: params['AdditionalGenerateArguments'] ), 
+                string(name: 'AdditionalBuildArguments', value: params['AdditionalBuildArguments'] )
+            ] , quietPeriod: 0
     }
-    */
-    
-    def params = getParameterMap( 
-        'https://github.com/Knitschi/googletest-PackageTest.git', 
-        'Googletest-vs2015-static-debug',
-        'Windows-10',
-        '-G"Visual Studio 14 2015"', 
-        '--config Release'
-        )
-    
-    build job: 'CMakeProjectBuildJob' , parameters: [
-            string(name: 'RepositoryUrl', value: params['RepositoryUrl'] ), 
-            string(name: 'CheckoutDirectory', value: params['CheckoutDirectory'] ), 
-            string(name: 'BuildSlaveTag', value: params['BuildSlaveTag'] ), 
-            string(name: 'AdditionalGenerateArguments', value: params['AdditionalGenerateArguments'] ), 
-            string(name: 'AdditionalBuildArguments', value: params['AdditionalBuildArguments'] )
-        ] 
 }
 
 
