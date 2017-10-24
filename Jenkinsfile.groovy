@@ -66,13 +66,15 @@ stage('Run Builds')
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
-        println """
+        def params = """
         ${config.repositoryUrl}
         ${config.checkoutDirectory}
         ${config.buildSlaveTag}
         ${config.additionalGenerateArguments}
         ${config.additionalBuildArguments}
         """
+        
+        echo parmas
     
         build job: 'CMakeProjectBuildJob' , parameters: [
                 string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
