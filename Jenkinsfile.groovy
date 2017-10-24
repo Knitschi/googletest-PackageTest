@@ -61,11 +61,13 @@ stage('Run Builds')
 {
     // prepare a map for build slave tag index incrementation
     //def slaveTagIndexes = getBuildSlaveTagIndexMap()
+    /*
     def configurations = getBuildConfigurations()
     
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
+    
         def params = """
 ${config.repositoryUrl}
 ${config.checkoutDirectory}
@@ -77,7 +79,6 @@ ${config.additionalBuildArguments}
     
         node('master')
         {
-            /*
             build job: 'CMakeProjectBuildJob' , parameters: [
                     string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
                     string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
@@ -86,16 +87,17 @@ ${config.additionalBuildArguments}
                     string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
                 ] 
                 //, quietPeriod: 0
-            */
-            build job: 'CMakeProjectBuildJob' , parameters: [
-                    string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git' ), 
-                    string(name: 'CheckoutDirectory', value: 'Googletest-vs2015-static-debug' ), 
-                    string(name: 'BuildSlaveTag', value: 'Windows-10' ), 
-                    string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"' ), 
-                    string(name: 'AdditionalBuildArguments', value: '--config Release' )
-                ] 
         }
     }
+    */
+    
+    build job: 'CMakeProjectBuildJob' , parameters: [
+            string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git' ), 
+            string(name: 'CheckoutDirectory', value: 'Googletest-vs2015-static-debug' ), 
+            string(name: 'BuildSlaveTag', value: 'Windows-10' ), 
+            string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"' ), 
+            string(name: 'AdditionalBuildArguments', value: '--config Release' )
+        ] 
 }
 
 
