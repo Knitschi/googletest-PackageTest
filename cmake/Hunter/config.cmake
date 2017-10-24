@@ -3,4 +3,4 @@
 include(hunter_config)
 include(hunter_user_error)
 
-hunter_config(GTest VERSION ${GTEST_VERSION})
+hunter_config(GTest GIT_SUBMODULE googletest)

@@ -2,21 +2,14 @@
 cmake_minimum_required (VERSION 3.4.0) 
 
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/Hunter/HunterGate.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/cmake/utilities.cmake")
 
-function( setIfNotDefined variableName variableValue )
-    if(NOT DEFINED ${variableName})
-        set(${variableName} ${variableValue} PARENT_SCOPE)
-    endif()
-endfunction()
-
-# set variable defaults to allow simpler command line call
-setIfNotDefined( GTEST_VERSION 1.8.0-hunter-p5)
-setIfNotDefined( HUNTER_URL https://github.com/ruslo/hunter/archive/v0.19.131.tar.gz )
-setIfNotDefined( HUNTER_SHA1 bc0eec34712af8854085c2dc6a90b78df17a9743 )
+setHunterRoot()
+createHunterArchiveFromRepository( hunterArchiveFile hunterSHA1 )
 
 HunterGate(
-    URL ${HUNTER_URL}
-    SHA1 ${HUNTER_SHA1}
+    URL ${hunterArchiveFile}
+    SHA1 ${hunterSHA1}
     LOCAL
 )
 
@@ -24,7 +17,6 @@ project(googletest-PackageTest)
 
 # download and build GTest
 hunter_add_package(GTest)
-
 
 # Add executable that provides its own main implementation
 find_package(GTest 1.8.0 CONFIG REQUIRED )

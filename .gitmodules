@@ -1,0 +1,6 @@
+[submodule "googletest"]
+	path = googletest
+	url = https://github.com/Knitschi/googletest.git
+[submodule "hunter"]
+	path = hunter
+	url = https://github.com/Knitschi/hunter.git
