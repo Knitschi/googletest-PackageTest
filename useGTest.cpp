@@ -1,8 +1,7 @@
 
 #include <gtest/gtest.h>
 
-TEST( Test1, Test1)
+TEST( TestWithGTest, TestWithGTest)
 {
     EXPECT_EQ( 1, 1);
 }
-
