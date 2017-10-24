@@ -68,8 +68,8 @@ stage('Run Builds')
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
-        build job: 'CMakeProjectBuildJob'
-            , parameters: [
+        build job: 'CMakeProjectBuildJob' ,
+            parameters: [
                 string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
                 string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
                 string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
