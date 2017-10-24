@@ -64,8 +64,7 @@ stage('Run Builds')
     def handleNodes = [:]
     for(config in configurations)
     {
-        def masterTag = config['MasterTag']
-        handleNodes[masterTag] = createMasterHandleNode(config)
+        handleNodes[config['MasterTag']] = createMasterHandleNode(config)
     }
     // run the nodes
     parallel handleNodes
@@ -74,7 +73,7 @@ stage('Run Builds')
 def createMasterHandleNode(config)
 {
     return {
-        node('config['MasterTag']')
+        node(config['MasterTag'])
         {
             def params = """
 RepositoryUrl: ${config['RepositoryUrl']}
