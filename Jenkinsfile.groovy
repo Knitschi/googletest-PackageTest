@@ -71,24 +71,24 @@ stage('Run Builds')
     def configurations = getBuildConfigurations()
     
     // trigger the cmake project job for all configurations
-    for(parmas in configurations)
+    for(config in configurations)
     {
     
         def params = """
-RepositoryUrl: ${params['RepositoryUrl']}
-CheckoutDirectory: ${params['CheckoutDirectory']}
-BuildSlaveTag: ${params['BuildSlaveTag']}
-AdditionalGenerateArguments: ${params['AdditionalGenerateArguments']}
-AdditionalBuildArguments: ${params['AdditionalBuildArguments']}
+RepositoryUrl: ${config['RepositoryUrl']}
+CheckoutDirectory: ${config['CheckoutDirectory']}
+BuildSlaveTag: ${config['BuildSlaveTag']}
+AdditionalGenerateArguments: ${config['AdditionalGenerateArguments']}
+AdditionalBuildArguments: ${config['AdditionalBuildArguments']}
 """
         echo params
     
         build job: 'CMakeProjectBuildJob' , parameters: [
-                string(name: 'RepositoryUrl', value: params['RepositoryUrl'] ), 
-                string(name: 'CheckoutDirectory', value: params['CheckoutDirectory'] ), 
-                string(name: 'BuildSlaveTag', value: params['BuildSlaveTag'] ), 
-                string(name: 'AdditionalGenerateArguments', value: params['AdditionalGenerateArguments'] ), 
-                string(name: 'AdditionalBuildArguments', value: params['AdditionalBuildArguments'] )
+                string(name: 'RepositoryUrl', value: config['RepositoryUrl'] ), 
+                string(name: 'CheckoutDirectory', value: config['CheckoutDirectory'] ), 
+                string(name: 'BuildSlaveTag', value: config['BuildSlaveTag'] ), 
+                string(name: 'AdditionalGenerateArguments', value: config['AdditionalGenerateArguments'] ), 
+                string(name: 'AdditionalBuildArguments', value: config['AdditionalBuildArguments'] )
             ] , quietPeriod: 0
     }
 }
