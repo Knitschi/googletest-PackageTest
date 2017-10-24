@@ -9,7 +9,7 @@ stage('Trigger Builds')
     def parallelNodes = [:]
     //parallelNodes.failFast = true
     
-    def toolchains = [Windows-10,Windows-10,Windows-10,Windows-10]
+    def toolchains = ['Windows-10','Windows-10','Windows-10','Windows-10']
     
     // add nodes for building the pipeline
     for(toolchain in toolchains)
