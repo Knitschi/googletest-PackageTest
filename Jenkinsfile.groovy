@@ -39,6 +39,7 @@ def getBuildConfigurations()
     vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
     vs2015StaticDebug.additionalBuildArguments = '--config Debug'
     
+    println "print parameter value"
     println vs2015StaticDebug.repositoryUrl
     
     def vs2015StaticRelease = new CMakeProjectParameter()
