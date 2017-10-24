@@ -39,6 +39,8 @@ def getBuildConfigurations()
     vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
     vs2015StaticDebug.additionalBuildArguments = '--config Debug'
     
+    println vs2015StaticDebug.repositoryUrl
+    
     def vs2015StaticRelease = new CMakeProjectParameter()
     vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
     vs2015StaticDebug.checkoutDirectory = "Googletest-vs2015-static-release"
@@ -66,17 +68,15 @@ stage('Run Builds')
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
-    
-        println config.repositoryUrl
-
-        build job: 'CMakeProjectBuildJob', parameters: [
-            string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
-            string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
-            string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
-            string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
-            string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
-            ] ,
-            quietPeriod: 0
+        build job: 'CMakeProjectBuildJob'
+            , parameters: [
+                string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
+                string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
+                string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
+                string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
+                string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
+            ] 
+            //, quietPeriod: 0
     }
 }
 
