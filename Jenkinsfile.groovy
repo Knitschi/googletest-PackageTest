@@ -67,23 +67,25 @@ stage('Run Builds')
     for(config in configurations)
     {
         def params = """
-        ${config.repositoryUrl}
-        ${config.checkoutDirectory}
-        ${config.buildSlaveTag}
-        ${config.additionalGenerateArguments}
-        ${config.additionalBuildArguments}
-        """
-        
+${config.repositoryUrl}
+${config.checkoutDirectory}
+${config.buildSlaveTag}
+${config.additionalGenerateArguments}
+${config.additionalBuildArguments}
+"""
         echo params
     
-        build job: 'CMakeProjectBuildJob' , parameters: [
-                string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
-                string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
-                string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
-                string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
-                string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
-            ] 
-            //, quietPeriod: 0
+        node('master')
+        {
+            build job: 'CMakeProjectBuildJob' , parameters: [
+                    string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
+                    string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
+                    string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
+                    string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
+                    string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
+                ] 
+                //, quietPeriod: 0
+        }
     }
 }
 
