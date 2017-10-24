@@ -34,16 +34,23 @@ def getBuildConfigurations()
 {
     def vs2015StaticDebug = new CMakeProjectParameter()
     vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
-    vs2015StaticDebug.checkoutDirectory = "Googletest-VS2015-static-debug"
+    vs2015StaticDebug.checkoutDirectory = "Googletest-vs2015-static-debug"
     vs2015StaticDebug.buildSlaveTag = "Windows-10"
     vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
     vs2015StaticDebug.additionalBuildArguments = '--config Debug'
     
     def vs2015StaticRelease = new CMakeProjectParameter()
     vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
-    vs2015StaticDebug.checkoutDirectory = "Googletest-VS2015-static-release"
+    vs2015StaticDebug.checkoutDirectory = "Googletest-vs2015-static-release"
     vs2015StaticDebug.buildSlaveTag = "Windows-10"
     vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
+    vs2015StaticDebug.additionalBuildArguments = '--config Release'
+    
+    def vs2015StaticRelease = new CMakeProjectParameter()
+    vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
+    vs2015StaticDebug.checkoutDirectory = "Googletest-make-static-release"
+    vs2015StaticDebug.buildSlaveTag = "Windows-10"
+    vs2015StaticDebug.additionalGenerateArguments = '-G"Unix Makefiles"'
     vs2015StaticDebug.additionalBuildArguments = '--config Release'
     
     return [vs2015StaticDebug,vs2015StaticRelease]
