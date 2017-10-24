@@ -8,43 +8,61 @@ This is a .groovy script that starts builds of the googletest-PackageTest projec
 // This function defines the build configurations.
 def getBuildConfigurations()
 {
-    def vs2015StaticDebug = getParameterMap(
-        'https://github.com/Knitschi/googletest-PackageTest.git', 
+    def configs = []
+
+    configs.add( getParameterMap(
         'Googletest-vs2015-static-debug',
-        'master-01',
         'Windows-10',
         '-G"Visual Studio 14 2015"', 
         '--config Debug'
-    )
+    ))
     
-    def vs2015StaticRelease = getParameterMap(
-        'https://github.com/Knitschi/googletest-PackageTest.git', 
+    configs.add( getParameterMap(
         'Googletest-vs2015-static-release',
-        'master-02',
         'Windows-10',
-        '-G"Visual Studio 14 2015"', 
+        '-G"Visual Studio 14 2015 Win64"', 
         '--config Release'
-    )
+    ))
     
-    def makeStaticRelease = getParameterMap(
-        'https://github.com/Knitschi/googletest-PackageTest.git', 
+    configs.add( getParameterMap(
+        'Googletest-vs2015-dynamic-release',
+        'Windows-10',
+        '-G"Visual Studio 14 2015" -DHUNTER_BUILD_SHARED_LIBS=ON', 
+        '--config Release'
+    ))
+    
+    configs.add( getParameterMap(
+        'Googletest-vs2015-dynamic-debug',
+        'Windows-10',
+        '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON', 
+        '--config Debug'
+    ))
+    
+    configs.add( getParameterMap(
         'Googletest-make-static-debug',
-        'master-03',
         'Debian-8.9',
         '-G"Unix Makefiles"', 
         '--config Debug'
-    )
+    ))
 
-    return [vs2015StaticDebug,vs2015StaticRelease,makeStaticRelease]
+    // Add indexes to to the node names for the master.
+    def masterTagIndex = 0
+    for(config in configs)
+    {
+        config['MasterTag'] = config['MasterTag'] + masterTagIndex
+        masterTagIndex = masterTagIndex + 1
+    }
+    
+    return configs
 }
 
-def getParameterMap( repositoryUrl, checkoutDirectroy, masterTag, buildSlaveTag, additionalGenerateArguments, additionalBuildArguments )
+def getParameterMap( checkoutDirectroy, buildSlaveTag, additionalGenerateArguments, additionalBuildArguments )
 {
     def paramMap = [:]
     
-    paramMap['RepositoryUrl'] = repositoryUrl
+    paramMap['RepositoryUrl'] = 'https://github.com/Knitschi/googletest-PackageTest.git'
     paramMap['CheckoutDirectory'] = checkoutDirectroy
-    paramMap['MasterTag'] = masterTag
+    paramMap['MasterTag'] = 'master-'
     paramMap['BuildSlaveTag'] = buildSlaveTag
     paramMap['AdditionalGenerateArguments'] = additionalGenerateArguments
     paramMap['AdditionalBuildArguments'] = additionalBuildArguments
