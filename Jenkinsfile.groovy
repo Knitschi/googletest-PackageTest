@@ -66,6 +66,9 @@ stage('Run Builds')
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
+    
+        println config.repositoryUrl
+
         build job: 'CMakeProjectBuildJob', parameters: [
             string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
             string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
@@ -73,8 +76,7 @@ stage('Run Builds')
             string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
             string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
             ] ,
-            quietPeriod: 0 ,
-            wait: false
+            quietPeriod: 0
     }
 }
 
