@@ -71,7 +71,7 @@ stage('Run Builds')
     def configurations = getBuildConfigurations()
     
     // trigger the cmake project job for all configurations
-    for(config in configurations)
+    for(parmas in configurations)
     {
     
         def params = """
