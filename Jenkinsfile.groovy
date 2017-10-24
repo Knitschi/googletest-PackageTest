@@ -61,9 +61,9 @@ stage('Run Builds')
 {
     // prepare a map for build slave tag index incrementation
     //def slaveTagIndexes = getBuildSlaveTagIndexMap()
-    /*
     def configurations = getBuildConfigurations()
     
+    /*
     // trigger the cmake project job for all configurations
     for(config in configurations)
     {
