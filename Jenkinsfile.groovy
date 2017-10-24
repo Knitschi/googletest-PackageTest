@@ -74,7 +74,7 @@ stage('Run Builds')
         ${config.additionalBuildArguments}
         """
         
-        echo parmas
+        echo params
     
         build job: 'CMakeProjectBuildJob' , parameters: [
                 string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
