@@ -6,29 +6,19 @@ This is a .groovy script that starts builds of the googletest-PackageTest projec
 
 stage('Trigger Builds')
 {
-    def parallelNodes = [:]
-    //parallelNodes.failFast = true
+    build job: 'CMakeProjectBuildJob', parameters: [
+        string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git'), 
+        string(name: 'Googletest-VS2015-static-debug', value: 'GoogleTestPackageTest'), 
+        string(name: 'BuildSlaveTag', value: 'Windows-10'), 
+        string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"'), 
+        string(name: 'AdditionalBuildArguments', value: '--config Debug')
+        ]
     
-    def toolchains = ['Windows-10','Windows-10','Windows-10','Windows-10']
-    
-    // add nodes for building the pipeline
-    for(toolchain in toolchains)
-    {
-        echo "Create build node " + toolchain
-        def myNode = createBuildNode(toolchain)
-        parallelNodes[toolchain] = myNode
-    }
-
-    // run the nodes
-    parallel parallelNodes
-}
-
-def createBuildNode(toolchain)
-{
-    return { 
-        node(toolchain) 
-        {
-            echo "Woohaaa ran the ${toolchain} node"
-        }
-    }
+    build job: 'CMakeProjectBuildJob', parameters: [
+        string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git'), 
+        string(name: 'Googletest-VS2015-static-release', value: 'GoogleTestPackageTest'), 
+        string(name: 'BuildSlaveTag', value: 'Windows-10'), 
+        string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"'), 
+        string(name: 'AdditionalBuildArguments', value: '--config Release')
+        ]
 }
