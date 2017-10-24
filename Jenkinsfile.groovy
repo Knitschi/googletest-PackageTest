@@ -68,7 +68,6 @@ stage('Run Builds')
             ] ,
             quietPeriod: 0 ,
             wait: false
-        }
     }
 }
 
