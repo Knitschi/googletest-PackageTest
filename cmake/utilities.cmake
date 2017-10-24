@@ -16,6 +16,7 @@ function( createHunterArchiveFromRepository hunterArchiveFileOut archiveSHA1Out 
 
     # create archive of the hunter git submodule
     set( hunterArchiveFile "${CMAKE_BINARY_DIR}/hunter.tar.gz" )
+    executeProcess( "git submodule update --recursive --remote" "${CMAKE_SOURCE_DIR}")
     executeProcess( "git archive -o \"${hunterArchiveFile}\" HEAD" "${CMAKE_SOURCE_DIR}/hunter" )
     # create hash
     file( SHA1 ${hunterArchiveFile} hunterSHA1)

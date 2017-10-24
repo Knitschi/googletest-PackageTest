@@ -7,6 +7,8 @@ include("${CMAKE_CURRENT_LIST_DIR}/cmake/utilities.cmake")
 setHunterRoot()
 createHunterArchiveFromRepository( hunterArchiveFile hunterSHA1 )
 
+set( HUNTER_STATUS_DEBUG ON )
+
 HunterGate(
     URL ${hunterArchiveFile}
     SHA1 ${hunterSHA1}
