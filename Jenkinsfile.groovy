@@ -4,15 +4,6 @@
 This is a .groovy script that starts builds of the googletest-PackageTest project for multiple configurations.
 */
 
-// This class is a collection of build parameters for the CMakeProjectBuildJob
-class CMakeProjectParameter {
-    def repositoryUrl
-    def checkoutDirectory
-    def buildSlaveTag
-    def additionalGenerateArguments
-    def additionalBuildArguments
-}
-
 // returns a map that is used to generate indexed build slave tags. 
 /*
 def getBuildSlaveTagIndexMap()
@@ -29,31 +20,47 @@ def getBuildSlaveTagIndexMap()
 }
 */
 
-def vs2015StaticDebug = new CMakeProjectParameter()
-vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
-vs2015StaticDebug.checkoutDirectory = "Googletest-vs2015-static-debug"
-vs2015StaticDebug.buildSlaveTag = "Windows-10"
-vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
-vs2015StaticDebug.additionalBuildArguments = '--config Debug'
-
-def vs2015StaticRelease = new CMakeProjectParameter()
-vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
-vs2015StaticDebug.checkoutDirectory = "Googletest-vs2015-static-release"
-vs2015StaticDebug.buildSlaveTag = "Windows-10"
-vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
-vs2015StaticDebug.additionalBuildArguments = '--config Release'
-
-def makeStaticRelease = new CMakeProjectParameter()
-vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
-vs2015StaticDebug.checkoutDirectory = "Googletest-make-static-release"
-vs2015StaticDebug.buildSlaveTag = "Windows-10"
-vs2015StaticDebug.additionalGenerateArguments = '-G"Unix Makefiles"'
-vs2015StaticDebug.additionalBuildArguments = '--config Release'
-
 // This function defines the build configurations.
 def getBuildConfigurations()
 {
+    def vs2015StaticDebug = getParameterMap(
+        'https://github.com/Knitschi/googletest-PackageTest.git', 
+        'Googletest-vs2015-static-debug',
+        'Windows-10',
+        '-G"Visual Studio 14 2015"', 
+        '--config Debug'
+    )
+    
+    def vs2015StaticRelease = getParameterMap(
+        'https://github.com/Knitschi/googletest-PackageTest.git', 
+        'Googletest-vs2015-static-release',
+        'Windows-10',
+        '-G"Visual Studio 14 2015"', 
+        '--config Release'
+    )
+    
+    def makeStaticRelease = getParameterMap(
+        'https://github.com/Knitschi/googletest-PackageTest.git', 
+        'Googletest-make-static-debug',
+        'Windows-10',
+        '-G"Unix Makefiles"', 
+        '--config Debug'
+    )
+
     return [vs2015StaticDebug/*,vs2015StaticRelease,makeStaticRelease*/]
+}
+
+def getParameterMap( repositoryUrl, checkoutDirectroy, buildSlaveTag, additionalGenerateArguments, additionalBuildArguments )
+{
+    def paramMap = [:]
+    
+    paramMap['RepositoryUrl'] = repositoryUrl
+    paramMap['CheckoutDirectory'] = checkoutDirectroy
+    paramMap['BuildSlaveTag'] = buildSlaveTag
+    paramMap['AdditionalGenerateArguments'] = additionalGenerateArguments
+    paramMap['AdditionalBuildArguments'] = additionalBuildArguments
+    
+    return paramMap
 }
 
 // Trigger the jobs
@@ -91,12 +98,20 @@ ${config.additionalBuildArguments}
     }
     */
     
+    def params = getParameterMap( 
+        'https://github.com/Knitschi/googletest-PackageTest.git', 
+        'Googletest-vs2015-static-debug',
+        'Windows-10',
+        '-G"Visual Studio 14 2015"', 
+        '--config Release'
+        )
+    
     build job: 'CMakeProjectBuildJob' , parameters: [
-            string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git' ), 
-            string(name: 'CheckoutDirectory', value: 'Googletest-vs2015-static-debug' ), 
-            string(name: 'BuildSlaveTag', value: 'Windows-10' ), 
-            string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"' ), 
-            string(name: 'AdditionalBuildArguments', value: '--config Release' )
+            string(name: 'RepositoryUrl', value: params['RepositoryUrl'] ), 
+            string(name: 'CheckoutDirectory', value: params['CheckoutDirectory'] ), 
+            string(name: 'BuildSlaveTag', value: params['BuildSlaveTag'] ), 
+            string(name: 'AdditionalGenerateArguments', value: params['AdditionalGenerateArguments'] ), 
+            string(name: 'AdditionalBuildArguments', value: params['AdditionalBuildArguments'] )
         ] 
 }
 
