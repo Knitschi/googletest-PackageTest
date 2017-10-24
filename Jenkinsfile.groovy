@@ -64,7 +64,8 @@ stage('Run Builds')
     def handleNodes = [:]
     for(config in configurations)
     {
-        handleNodes[config['MasterTag']] = createMasterHandleNode(config)
+        def masterTag = config['MasterTag']
+        handleNodes[masterTag] = createMasterHandleNode(config)
     }
     // run the nodes
     parallel handleNodes
