@@ -4,45 +4,73 @@
 This is a .groovy script that starts builds of the googletest-PackageTest project for multiple configurations.
 */
 
-stage('Run Builds')
-{
-    node('master')
-    {
-        build job: 'CMakeProjectBuildJob', parameters: [
-        string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git'), 
-        string(name: 'Googletest-VS2015-static-debug', value: 'GoogleTestPackageTest'), 
-        string(name: 'BuildSlaveTag', value: 'Windows-10'), 
-        string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"'), 
-        string(name: 'AdditionalBuildArguments', value: '--config Debug')
-        ]
-    
-    build job: 'CMakeProjectBuildJob', parameters: [
-        string(name: 'RepositoryUrl', value: 'https://github.com/Knitschi/googletest-PackageTest.git'), 
-        string(name: 'Googletest-VS2015-static-release', value: 'GoogleTestPackageTest'), 
-        string(name: 'BuildSlaveTag', value: 'Windows-10'), 
-        string(name: 'AdditionalGenerateArguments', value: '-G"Visual Studio 14 2015"'), 
-        string(name: 'AdditionalBuildArguments', value: '--config Release')
-        ]
-    }
+// This class is a collection of build parameters for the CMakeProjectBuildJob
+class CMakeProjectParameter {
+    def repositoryUrl
+    def checkoutDirectory
+    def buildSlaveTag
+    def additionalGenerateArguments
+    def additionalBuildArguments
 }
 
-/**
-stage('Build Pipeline')
+// returns a map that is used to generate indexed build slave tags. 
+/*
+def getBuildSlaveTagIndexMap()
 {
-    def parallelNodes = [:]
-    parallelNodes.failFast = true
+    def availableBaseTags = ['Windows-10','Debian-8.9']
+    def slaveTagIndexMap = [:]
     
-    // add nodes for building the pipeline
-    for(toolchain in toolchains)
+    for(baseTag in availableBaseTags)
     {
-        echo "Create build node " + toolchain
-        def myNode = createBuildNode(toolchain)
-        parallelNodes[toolchain] = myNode
+        slaveTagIndexMap[baseTag] = 0
     }
 
-    // run the nodes
-    parallel parallelNodes
+    return slaveTagIndexMap
 }
 */
+
+// This function defines the build configurations.
+def getBuildConfigurations()
+{
+    def vs2015StaticDebug = new CMakeProjectParameter()
+    vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
+    vs2015StaticDebug.checkoutDirectory = "Googletest-VS2015-static-debug"
+    vs2015StaticDebug.buildSlaveTag = "Windows-10"
+    vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
+    vs2015StaticDebug.additionalBuildArguments = '--config Debug'
+    
+    def vs2015StaticRelease = new CMakeProjectParameter()
+    vs2015StaticDebug.repositoryUrl = "https://github.com/Knitschi/googletest-PackageTest.git"
+    vs2015StaticDebug.checkoutDirectory = "Googletest-VS2015-static-release"
+    vs2015StaticDebug.buildSlaveTag = "Windows-10"
+    vs2015StaticDebug.additionalGenerateArguments = '-G"Visual Studio 14 2015"'
+    vs2015StaticDebug.additionalBuildArguments = '--config Release'
+    
+    return [vs2015StaticDebug,vs2015StaticRelease]
+}
+
+// Trigger the jobs
+stage('Run Builds')
+{
+    // prepare a map for build slave tag index incrementation
+    //def slaveTagIndexes = getBuildSlaveTagIndexMap()
+    def configurations = getBuildConfigurations()
+    
+    // trigger the cmake project job for all configurations
+    for(config in configurations)
+    {
+        build job: 'CMakeProjectBuildJob', parameters: [
+            string(name: 'RepositoryUrl', value: config.repositoryUrl ), 
+            string(name: 'CheckoutDirectory', value: config.checkoutDirectory ), 
+            string(name: 'BuildSlaveTag', value: config.buildSlaveTag ), 
+            string(name: 'AdditionalGenerateArguments', value: config.additionalGenerateArguments ), 
+            string(name: 'AdditionalBuildArguments', value: config.additionalBuildArguments )
+            ] ,
+            quietPeriod: 0 ,
+            wait: false
+        }
+    }
+}
+
 
 
