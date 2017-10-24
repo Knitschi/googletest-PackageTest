@@ -11,7 +11,7 @@ def getBuildConfigurations()
     def vs2015StaticDebug = getParameterMap(
         'https://github.com/Knitschi/googletest-PackageTest.git', 
         'Googletest-vs2015-static-debug',
-        'master-01'
+        'master-01',
         'Windows-10',
         '-G"Visual Studio 14 2015"', 
         '--config Debug'
@@ -20,7 +20,7 @@ def getBuildConfigurations()
     def vs2015StaticRelease = getParameterMap(
         'https://github.com/Knitschi/googletest-PackageTest.git', 
         'Googletest-vs2015-static-release',
-        'master-02'
+        'master-02',
         'Windows-10',
         '-G"Visual Studio 14 2015"', 
         '--config Release'
@@ -29,7 +29,7 @@ def getBuildConfigurations()
     def makeStaticRelease = getParameterMap(
         'https://github.com/Knitschi/googletest-PackageTest.git', 
         'Googletest-make-static-debug',
-        'master-03'
+        'master-03',
         'Debian-8.9',
         '-G"Unix Makefiles"', 
         '--config Debug'
