@@ -33,3 +33,25 @@ function( executeProcess command workingDirectory )
         WORKING_DIRECTORY "${workingDirectory}"
     )
 endfunction()
+
+function( createHunterConfigFile hunterPackageVersion )
+
+    set(filepath "${CMAKE_SOURCE_DIR}/cmake/Hunter/config.cmake")
+    file(REMOVE "${filePath}")
+    
+    if( ${hunterPackageVersion} STREQUAL GIT_SUBMODULE )
+        set( fileContent "\
+include(hunter_config)\n\
+include(hunter_user_error)\n\
+hunter_config( GTest GIT_SUBMODULE googletest CMAKE_ARGS HUNTER_INSTALL_LICENSE_FILES=googletest/LICENSE )\n\
+        ")
+    else()
+        set( fileContent "\
+include(hunter_config)\n\
+include(hunter_user_error)\n\
+hunter_config(GTest VERSION ${PACKAGE_VERSION})\n\
+        ")
+    endif()
+    file( WRITE "${filepath}" "${fileContent}")
+    
+endfunction()

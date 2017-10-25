@@ -11,37 +11,44 @@ def getBuildConfigurations()
     def configs = []
 
     configs.add( getParameterMap(
-        'Googletest-vs2015-static-debug',
+        'Googletest-submodule-vs2015-static-debug',
         'Windows-10',
-        '-G"Visual Studio 14 2015"', 
+        '-G"Visual Studio 14 2015" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Debug'
     ))
     
     configs.add( getParameterMap(
-        'Googletest-vs2015-static-release',
+        'Googletest-submodule-vs2015-static-release',
         'Windows-10',
-        '-G"Visual Studio 14 2015 Win64"', 
+        '-G"Visual Studio 14 2015 Win64" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Release'
     ))
     
     configs.add( getParameterMap(
-        'Googletest-vs2015-dynamic-release',
+        'Googletest-submodule-vs2015-dynamic-release',
         'Windows-10',
-        '-G"Visual Studio 14 2015" -DHUNTER_BUILD_SHARED_LIBS=ON', 
+        '-G"Visual Studio 14 2015" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Release'
     ))
     
     configs.add( getParameterMap(
-        'Googletest-vs2015-dynamic-debug',
+        'Googletest-submodule-vs2015-dynamic-debug',
         'Windows-10',
-        '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON', 
+        '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Debug'
     ))
     
     configs.add( getParameterMap(
-        'Googletest-make-static-debug',
+        'Googletest-1.8.0-hunter-p7-vs2015-dynamic-debug',
+        'Windows-10',
+        '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=1.8.0-hunter-p7', 
+        '--config Debug'
+    ))
+    
+    configs.add( getParameterMap(
+        'Googletest-submodule-make-static-debug',
         'Debian-8.9',
-        '-G"Unix Makefiles"', 
+        '-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Debug'
     ))
 
