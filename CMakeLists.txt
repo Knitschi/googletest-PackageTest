@@ -8,7 +8,6 @@ if(NOT DEFINED HUNTER_PACKAGE_VERSION)
     set( HUNTER_PACKAGE_VERSION GIT_SUBMODULE)
 endif()
 
-
 setHunterRoot()
 createHunterArchiveFromRepository( hunterArchiveFile hunterSHA1 )
 createHunterConfigFile( ${HUNTER_PACKAGE_VERSION} ) 

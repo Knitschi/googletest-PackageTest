@@ -14,8 +14,11 @@ endfunction()
 # checkout the hunter sources from a repository and create an tar.gz archive with a hash that can be used for HunterGate()
 function( createHunterArchiveFromRepository hunterArchiveFileOut archiveSHA1Out )
 
+    devMessage("called createHunterARchive")
+
     # create archive of the hunter git submodule
     set( hunterArchiveFile "${CMAKE_BINARY_DIR}/hunter.tar.gz" )
+    executeProcess( "git submodule init" "${CMAKE_SOURCE_DIR}")
     executeProcess( "git submodule update --recursive --remote" "${CMAKE_SOURCE_DIR}")
     executeProcess( "git archive -o \"${hunterArchiveFile}\" HEAD" "${CMAKE_SOURCE_DIR}/hunter" )
     # create hash
@@ -28,10 +31,20 @@ endfunction()
 
 function( executeProcess command workingDirectory )
     separate_arguments( commandList UNIX_COMMAND ${command} )
+    
+    devMessage( "COMMAND ${command}" )
+    devMessage( "WORKING DIRECTORY ${workingDirectory}" )
+    
     execute_process(  
         COMMAND ${commandList}
         WORKING_DIRECTORY "${workingDirectory}"
+        RESULT_VARIABLE result
     )
+
+    if(NOT ${result} STREQUAL 0)
+        message(FATAL_ERROR "Command \"${command}\" failed.")
+    endif()
+    
 endfunction()
 
 function( createHunterConfigFile hunterPackageVersion )
@@ -54,4 +67,8 @@ hunter_config(GTest VERSION ${PACKAGE_VERSION})\n\
     endif()
     file( WRITE "${filepath}" "${fileContent}")
     
+endfunction()
+
+function( devMessage msg )
+    message("------------------------------------- ${msg}")
 endfunction()
