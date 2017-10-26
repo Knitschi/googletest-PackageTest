@@ -45,6 +45,7 @@ def getBuildConfigurations()
         '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=1.8.0-hunter-p7', 
         '--config Debug'
     ))
+    */
     
     configs.add( getParameterMap(
         'Googletest-submodule-make-static-debug',
@@ -52,7 +53,6 @@ def getBuildConfigurations()
         '-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Debug'
     ))
-    */
 
     // Add indexes to to the node names for the master.
     def masterTagIndex = 0
