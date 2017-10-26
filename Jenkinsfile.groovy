@@ -10,6 +10,7 @@ def getBuildConfigurations()
 {
     def configs = []
 
+    /*
     configs.add( getParameterMap(
         'Googletest-submodule-vs2015-static-debug',
         'Windows-10',
@@ -51,6 +52,7 @@ def getBuildConfigurations()
         '-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
         '--config Debug'
     ))
+    */
 
     // Add indexes to to the node names for the master.
     def masterTagIndex = 0
