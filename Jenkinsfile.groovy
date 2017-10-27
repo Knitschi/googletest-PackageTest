@@ -10,7 +10,6 @@ def getBuildConfigurations()
 {
     def configs = []
 
-    /*
     configs.add( getParameterMap(
         'Googletest-submodule-vs2015-static-debug',
         'Windows-10',
@@ -45,7 +44,6 @@ def getBuildConfigurations()
         '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=1.8.0-hunter-p7', 
         '--config Debug'
     ))
-    */
     
     configs.add( getParameterMap(
         'Googletest-submodule-make-static-debug',
