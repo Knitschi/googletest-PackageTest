@@ -53,14 +53,14 @@ def getBuildConfigurations()
     // Build latest released package
     def version = '1.8.0-hunter-p8'
     configs.add( getParameterMap(
-        'Googletest-${version}-vs2015-static-debug',
+        "Googletest-${version}-vs2015-static-debug",
         'Windows-10',
         "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
     ))
     
     configs.add( getParameterMap(
-        'Googletest-${version}-make-static-debug',
+        "Googletest-${version}-make-static-debug",
         'Debian-8.9',
         "-G\"Unix Makefiles\" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
@@ -69,14 +69,14 @@ def getBuildConfigurations()
     // Build last package version from old repository
     version = '1.7.0-hunter-11')
 	configs.add( getParameterMap(
-        'Googletest-${version}-vs2015-static-debug',
+        "Googletest-${version}-vs2015-static-debug",
         'Windows-10',
         "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
     ))
     
     configs.add( getParameterMap(
-        'Googletest-${version}-make-static-debug',
+        "Googletest-${version}-make-static-debug",
         'Debian-8.9',
         "-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
