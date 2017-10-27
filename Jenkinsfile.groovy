@@ -10,7 +10,7 @@ def getBuildConfigurations()
 {
     def configs = []
 
-    # Build latest developr version
+    // Build latest developr version
     configs.add( getParameterMap(
         'Googletest-submodule-vs2015-static-debug',
         'Windows-10',
@@ -50,7 +50,7 @@ def getBuildConfigurations()
     ))
     
     
-    # Build latest released pacakge
+    // Build latest released pacakge
     configs.add( getParameterMap(
         'Googletest-1.8.0-hunter-p8-vs2015-dynamic-debug',
         'Windows-10',
