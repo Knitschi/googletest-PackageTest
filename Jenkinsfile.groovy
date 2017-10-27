@@ -59,30 +59,28 @@ def getBuildConfigurations()
         '--config Debug'
     ))
     
-    /*
     configs.add( getParameterMap(
         'Googletest-${version}-make-static-debug',
         'Debian-8.9',
-        '-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=${version}', 
+        "-G\"Unix Makefiles\" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
     ))
     
     // Build last package version from old repository
-    def version = '1.7.0-hunter-11')
+    version = '1.7.0-hunter-11')
 	configs.add( getParameterMap(
         'Googletest-${version}-vs2015-static-debug',
         'Windows-10',
-        '-G"Visual Studio 14 2015 Win64" -DHUNTER_PACKAGE_VERSION=${version}', 
+        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
     ))
     
     configs.add( getParameterMap(
         'Googletest-${version}-make-static-debug',
         'Debian-8.9',
-        '-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=${version}', 
+        "-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
     ))
-    */
     
 
     // Add indexes to to the node names for the master.
