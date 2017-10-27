@@ -33,10 +33,7 @@ endfunction()
 
 function( executeProcess command workingDirectory )
     separate_arguments( commandList UNIX_COMMAND ${command} )
-    
-    devMessage( "COMMAND ${command}" )
-    devMessage( "WORKING DIRECTORY ${workingDirectory}" )
-    
+
     execute_process(  
         COMMAND ${commandList}
         WORKING_DIRECTORY "${workingDirectory}"
