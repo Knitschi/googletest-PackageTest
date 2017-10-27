@@ -67,7 +67,7 @@ def getBuildConfigurations()
     ))
     
     // Build last package version from old repository
-    version = '1.7.0-hunter-11')
+    version = '1.7.0-hunter-11'
 	configs.add( getParameterMap(
         "Googletest-${version}-vs2015-static-debug",
         'Windows-10',
