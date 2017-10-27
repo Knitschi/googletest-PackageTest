@@ -78,7 +78,7 @@ def getBuildConfigurations()
     configs.add( getParameterMap(
         "Googletest-${version}-make-static-debug",
         'Debian-8.9',
-        "-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=${version}", 
+        "-G\"Unix Makefiles\" -DHUNTER_PACKAGE_VERSION=${version}", 
         '--config Debug'
     ))
     
