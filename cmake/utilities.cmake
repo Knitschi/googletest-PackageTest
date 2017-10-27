@@ -11,6 +11,7 @@ function( setHunterRoot )
     endif()
 endfunction()
 
+
 # checkout the hunter sources from a repository and create an tar.gz archive with a hash that can be used for HunterGate()
 function( createHunterArchiveFromRepository hunterArchiveFileOut archiveSHA1Out )
 
@@ -28,6 +29,7 @@ function( createHunterArchiveFromRepository hunterArchiveFileOut archiveSHA1Out 
     set( ${archiveSHA1Out} ${hunterSHA1} PARENT_SCOPE)
     
 endfunction()
+
 
 function( executeProcess command workingDirectory )
     separate_arguments( commandList UNIX_COMMAND ${command} )
@@ -47,6 +49,7 @@ function( executeProcess command workingDirectory )
     
 endfunction()
 
+
 function( createHunterConfigFile hunterPackageVersion )
 
     set(filepath "${CMAKE_SOURCE_DIR}/cmake/Hunter/config.cmake")
@@ -62,7 +65,7 @@ hunter_config( GTest GIT_SUBMODULE googletest CMAKE_ARGS HUNTER_INSTALL_LICENSE_
         set( fileContent "\
 include(hunter_config)\n\
 include(hunter_user_error)\n\
-hunter_config(GTest VERSION ${PACKAGE_VERSION})\n\
+hunter_config(GTest VERSION ${hunterPackageVersion})\n\
         ")
     endif()
     file( WRITE "${filepath}" "${fileContent}")
