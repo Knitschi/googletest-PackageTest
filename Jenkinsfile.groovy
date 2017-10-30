@@ -28,15 +28,20 @@ def getConfigsForVersion( version )
 {
     def configs = []
 
-    // Test common case of static build release build vor VS2015
+    /*
+    - Test VS2015 64bit build.
+    - Test that static linkage with release version works.
+    - Test that setting BUILD_GMOCK=OFF does not cause build errors.
+    */
     configs.add( getParameterMap(
         "Googletest-${version}-vs2015-static-release",
         'Windows-10',
-        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
+        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version} -DBUILD_GMOCK=OFF", 
         '--config Release'
     ))
     
     /* 
+    - Test VS2015 32bit build.
     - Test the dynamic buiild.
     - Test a build other then debug that creates debug info.
     - Test that the package respects the CMAKE_<CONFIG>_POSTFIX variable. 
@@ -44,7 +49,7 @@ def getConfigsForVersion( version )
     configs.add( getParameterMap(
         "Googletest-${version}-vs2015-dynamic-relwithdebinfo",
         'Windows-10',
-        "-G\"Visual Studio 14 2015\" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=${version} -DCMAKE_RELWITHDEBINFO_POSTFIX=-relwithdebinfo", 
+        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=${version} -DCMAKE_RELWITHDEBINFO_POSTFIX=-relwithdebinfo", 
         '--config RelWithDebInfo'
     ))
 
