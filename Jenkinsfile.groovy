@@ -9,9 +9,9 @@ This is a .groovy script that starts builds of the googletest-PackageTest projec
 def getBuildConfigurations()
 {
     def configs = []
-    //configs.add( getConfigsForVersion( '1.7.0-hunter-11' ) )    // latest package from old repository
-    //configs.add( getConfigsForVersion( '1.8.0-hunter-p8' ) )    // latest hunter package
-    configs.add( getConfigsForVersion( 'GIT_SUBMODULE' ) )      // developer version
+    //configs.addAll( getConfigsForVersion( '1.7.0-hunter-11' ) )    // latest package from old repository
+    //configs.addAll() getConfigsForVersion( '1.8.0-hunter-p8' ) )    // latest hunter package
+    configs.addAll( getConfigsForVersion( 'GIT_SUBMODULE' ) )      // developer version
 
     // Add indexes to to the node names for the master.
     def masterTagIndex = 0
