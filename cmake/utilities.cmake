@@ -15,8 +15,6 @@ endfunction()
 # checkout the hunter sources from a repository and create an tar.gz archive with a hash that can be used for HunterGate()
 function( createHunterArchiveFromRepository hunterArchiveFileOut archiveSHA1Out )
 
-    devMessage("called createHunterARchive")
-
     # create archive of the hunter git submodule
     set( hunterArchiveFile "${CMAKE_BINARY_DIR}/hunter.tar.gz" )
     executeProcess( "git submodule init" "${CMAKE_SOURCE_DIR}")
