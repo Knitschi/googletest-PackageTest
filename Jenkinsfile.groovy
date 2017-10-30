@@ -9,79 +9,9 @@ This is a .groovy script that starts builds of the googletest-PackageTest projec
 def getBuildConfigurations()
 {
     def configs = []
-
-    // Build latest developer version
-    configs.add( getParameterMap(
-        'Googletest-submodule-vs2015-static-debug',
-        'Windows-10',
-        '-G"Visual Studio 14 2015" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
-        '--config Debug'
-    ))
-    
-    configs.add( getParameterMap(
-        'Googletest-submodule-vs2015-static-release',
-        'Windows-10',
-        '-G"Visual Studio 14 2015 Win64" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
-        '--config Release'
-    ))
-    
-    /*
-    configs.add( getParameterMap(
-        'Googletest-submodule-vs2015-dynamic-release',
-        'Windows-10',
-        '-G"Visual Studio 14 2015" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
-        '--config Release'
-    ))
-    
-    
-    configs.add( getParameterMap(
-        'Googletest-submodule-vs2015-dynamic-debug',
-        'Windows-10',
-        '-G"Visual Studio 14 2015 Win64" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
-        '--config Debug'
-    ))
-    */
-    
-    configs.add( getParameterMap(
-        'Googletest-submodule-make-static-debug',
-        'Debian-8.9',
-        '-G"Unix Makefiles" -DHUNTER_PACKAGE_VERSION=GIT_SUBMODULE', 
-        '--config Debug'
-    ))
-    
-    
-    // Build latest released package
-    def version = '1.8.0-hunter-p8'
-    configs.add( getParameterMap(
-        "Googletest-${version}-vs2015-static-debug",
-        'Windows-10',
-        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
-        '--config Debug'
-    ))
-    
-    configs.add( getParameterMap(
-        "Googletest-${version}-make-static-debug",
-        'Debian-8.9',
-        "-G\"Unix Makefiles\" -DHUNTER_PACKAGE_VERSION=${version}", 
-        '--config Debug'
-    ))
-    
-    // Build last package version from old repository
-    version = '1.7.0-hunter-11'
-	configs.add( getParameterMap(
-        "Googletest-${version}-vs2015-static-debug",
-        'Windows-10',
-        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
-        '--config Debug'
-    ))
-    
-    configs.add( getParameterMap(
-        "Googletest-${version}-make-static-debug",
-        'Debian-8.9',
-        "-G\"Unix Makefiles\" -DHUNTER_PACKAGE_VERSION=${version}", 
-        '--config Debug'
-    ))
-    
+    //configs.add( getConfigsForVersion( '1.7.0-hunter-11' ) )    // latest package from old repository
+    //configs.add( getConfigsForVersion( '1.8.0-hunter-p8' ) )    // latest hunter package
+    configs.add( getConfigsForVersion( 'GIT_SUBMODULE' ) )      // developer version
 
     // Add indexes to to the node names for the master.
     def masterTagIndex = 0
@@ -91,6 +21,54 @@ def getBuildConfigurations()
         masterTagIndex = masterTagIndex + 1
     }
     
+    return configs
+}
+
+def getConfigsForVersion( version )
+{
+    def configs = []
+
+    // Test common case of static build release build vor VS2015
+    configs.add( getParameterMap(
+        "Googletest-${version}-vs2015-static-release",
+        'Windows-10',
+        "-G\"Visual Studio 14 2015 Win64\" -DHUNTER_PACKAGE_VERSION=${version}", 
+        '--config Release'
+    ))
+    
+    /* 
+    - Test the dynamic buiild.
+    - Test a build other then debug that creates debug info.
+    - Test that the package respects the CMAKE_<CONFIG>_POSTFIX variable. 
+    */
+    configs.add( getParameterMap(
+        "Googletest-${version}-vs2015-dynamic-relwithdebinfo",
+        'Windows-10',
+        "-G\"Visual Studio 14 2015\" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=${version} -DCMAKE_RELWITHDEBINFO_POSTFIX=-relwithdebinfo", 
+        '--config RelWithDebInfo'
+    ))
+
+    /*
+    - Test static lib build with gcc.
+    - Test debug lib build with gcc.
+    */
+    configs.add( getParameterMap(
+        "Googletest-${version}-make-static-debug",
+        'Debian-8.9',
+        "-G\"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Debug -DHUNTER_PACKAGE_VERSION=${version}", 
+        ''
+    ))
+
+    /*
+    - Test dynamic lib build with gcc.
+    */
+    configs.add( getParameterMap(
+        "Googletest-${version}-make-dynamic-release",
+        'Debian-8.9',
+        "-G\"Unix Makefiles\" -DCMAKE_BUILD_TYPE=Release -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=${version}", 
+        ''
+    ))
+
     return configs
 }
 
