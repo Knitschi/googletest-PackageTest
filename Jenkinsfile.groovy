@@ -53,6 +53,19 @@ def getConfigsForVersion( version )
         '--config RelWithDebInfo'
     ))
 
+    /**
+    - Test 32bit build with dynamic linkage.
+    -> This is currently broken.
+    */
+    /*
+    configs.add( getParameterMap(
+        "Googletest-${version}-vs2015-dynamic-relwithdebinfo",
+        'Windows-10',
+        "-G\"Visual Studio 14 2015\" -DHUNTER_BUILD_SHARED_LIBS=ON -DHUNTER_PACKAGE_VERSION=${version}", 
+        '--config Release'
+    ))
+    */
+
     /*
     - Test static lib build with gcc.
     - Test debug lib build with gcc.
