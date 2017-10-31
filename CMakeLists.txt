@@ -31,10 +31,16 @@ find_package(GTest CONFIG REQUIRED )
 add_executable( GTestConsumer useGTest.cpp main.cpp )
 target_link_libraries( GTestConsumer PUBLIC GTest::gtest )
 
+add_executable( GTestMainConsumer useGTest.cpp )
+target_link_libraries( GTestMainConsumer PUBLIC GTest::main )
+
 # Add executable that uses the main() implementation from GMock:gmock_main
 # Package versions < 1.8.0-hunter-p2 do not include GMock
 find_package(GMock CONFIG )
 if(GMock_FOUND)
     add_executable( GMockConsumer useGMock.cpp )
-    target_link_libraries( GMockConsumer PUBLIC GMock::main )
+    target_link_libraries( GMockConsumer PUBLIC GMock::main  )
 endif()
+
+set(targets GTest::gtest GTest::main GMock::gmock GMock::main)
+printInterfaceDefinitions( "${targets}" )

@@ -1,5 +1,9 @@
 
+# pragma warning(push)
+# pragma warning(disable:4251)
+# pragma warning(disable:4275)
 #include <gmock/gmock.h>
+# pragma warning(pop)
 
 class MyClass
 {
@@ -20,6 +24,6 @@ TEST( TestWithMock, TestWithMock)
 {
     MyMock mock;
 	EXPECT_CALL(mock, multiply(testing::_, testing::_)).WillOnce(testing::Return(5));
-
+    
     EXPECT_EQ( mock.multiply(2,1), 5);
 }

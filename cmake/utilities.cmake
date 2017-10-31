@@ -54,7 +54,7 @@ function( createHunterConfigFile hunterPackageVersion )
         set( fileContent "\
 include(hunter_config)\n\
 include(hunter_user_error)\n\
-hunter_config( GTest GIT_SUBMODULE googletest CMAKE_ARGS HUNTER_INSTALL_LICENSE_FILES=googletest/LICENSE )\n\
+hunter_config( GTest GIT_SUBMODULE googletest CMAKE_ARGS HUNTER_INSTALL_LICENSE_FILES=googletest/LICENSE CMAKE_INSTALL_INCLUDEDIR=myinclude )\n\
         ")
     else()
         set( fileContent "\
@@ -69,4 +69,11 @@ endfunction()
 
 function( devMessage msg )
     message("------------------------------------- ${msg}")
+endfunction()
+
+function( printInterfaceDefinitions targets )
+    foreach( target ${targets})
+        get_property(interfaceDefinitions TARGET ${target} PROPERTY INTERFACE_COMPILE_DEFINITIONS)
+        message( "Interface definitions ${target}: ${interfaceDefinitions}")
+    endforeach()
 endfunction()
