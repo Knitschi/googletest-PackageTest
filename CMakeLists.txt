@@ -8,6 +8,8 @@ if(NOT DEFINED HUNTER_PACKAGE_VERSION)
     set( HUNTER_PACKAGE_VERSION GIT_SUBMODULE)
 endif()
 
+set( HUNTER_CONFIGURATION_TYPES ${CMAKE_CONFIGURATION_TYPES})
+
 setHunterRoot()
 createHunterArchiveFromRepository( hunterArchiveFile hunterSHA1 )
 createHunterConfigFile( ${HUNTER_PACKAGE_VERSION} ) 
@@ -41,6 +43,3 @@ if(GMock_FOUND)
     add_executable( GMockConsumer useGMock.cpp )
     target_link_libraries( GMockConsumer PUBLIC GMock::main  )
 endif()
-
-set(targets GTest::gtest GTest::main GMock::gmock GMock::main)
-printInterfaceDefinitions( "${targets}" )

@@ -54,7 +54,7 @@ function( createHunterConfigFile hunterPackageVersion )
         set( fileContent "\
 include(hunter_config)\n\
 include(hunter_user_error)\n\
-hunter_config( GTest GIT_SUBMODULE googletest CMAKE_ARGS HUNTER_INSTALL_LICENSE_FILES=googletest/LICENSE CMAKE_INSTALL_INCLUDEDIR=myinclude )\n\
+hunter_config( GTest GIT_SUBMODULE googletest CMAKE_ARGS HUNTER_INSTALL_LICENSE_FILES=googletest/LICENSE )\n\
         ")
     else()
         set( fileContent "\
