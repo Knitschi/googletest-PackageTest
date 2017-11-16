@@ -10,7 +10,7 @@ def getBuildConfigurations()
 {
     def configs = []
     //configs.addAll( getConfigsForVersion( '1.7.0-hunter-11' ) )    // latest package from old repository
-    //configs.addAll() getConfigsForVersion( '1.8.0-hunter-p8' ) )    // latest hunter package
+    configs.addAll() getConfigsForVersion( '1.8.0-hunter-p10' ) )    // latest hunter package
     configs.addAll( getConfigsForVersion( 'GIT_SUBMODULE' ) )      // developer version
 
     // Add indexes to to the node names for the master.
